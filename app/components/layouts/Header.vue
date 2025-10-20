@@ -50,14 +50,14 @@ watch(() => useRoute().path, () => {
             <NuxtLink
               to="/"
               title="Srlinks"
-              class="flex items-center py-4 space-x-3 text-xl font-black text-slate-900 dark:text-slate-100 md:py-0 group transition-all duration-300 hover:scale-105"
+              class="flex items-center py-3 space-x-3 text-lg font-black text-slate-900 dark:text-slate-100 md:py-0 group transition-all duration-300 hover:scale-105"
             >
               <div class="relative">
-                <span class="flex items-center justify-center w-10 h-10 rounded-xl brand-gradient shadow-lg group-hover:shadow-xl transition-all duration-300">
+                <span class="flex items-center justify-center w-9 h-9 rounded-xl brand-gradient shadow-lg group-hover:shadow-xl transition-all duration-300">
                   <img
                     src="/sink.png"
                     alt="Srlinks"
-                    class="w-8 h-8 rounded-lg"
+                    class="w-7 h-7 rounded-lg"
                     loading="eager"
                   >
                 </span>
@@ -75,12 +75,12 @@ watch(() => useRoute().path, () => {
             <div class="flex-col w-full h-auto overflow-hidden rounded-lg md:overflow-visible md:rounded-none md:relative md:flex md:flex-row">
               <div class="w-auto mx-4" />
 
-              <div class="flex flex-row items-center justify-end w-full space-x-6">
+              <div class="flex flex-row items-center justify-end w-full space-x-4">
                 <!-- Dashboard Link -->
                 <NuxtLink
                   to="/dashboard"
                   title="Srlinks Dashboard"
-                  class="relative px-6 py-2.5 text-white font-semibold bg-gradient-to-r from-[#FF6B35] to-[#F72B7E] hover:from-[#F72B7E] hover:to-[#FF6B35] rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg hover:shadow-orange-500/30 border border-black/10 group overflow-hidden"
+                  class="relative px-5 py-2 text-white font-semibold bg-gradient-to-r from-[#FF6B35] to-[#F72B7E] hover:from-[#F72B7E] hover:to-[#FF6B35] rounded-lg transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg hover:shadow-orange-500/30 border border-black/10 group overflow-hidden text-sm"
                 >
                   <span class="relative z-10">Dashboard</span>
                   <!-- Shine effect -->
@@ -93,9 +93,9 @@ watch(() => useRoute().path, () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   title="GitHub Repository"
-                  class="relative inline-flex items-center px-6 py-2.5 text-sm font-semibold leading-5 text-white bg-gradient-to-r from-[#FF6B35] to-[#F72B7E] hover:from-[#F72B7E] hover:to-[#FF6B35] rounded-xl hover:shadow-lg hover:shadow-pink-500/30 transition-all duration-300 transform hover:-translate-y-0.5 group border border-black/10 overflow-hidden"
+                  class="relative inline-flex items-center px-5 py-2 text-sm font-semibold leading-5 text-white bg-gradient-to-r from-[#FF6B35] to-[#F72B7E] hover:from-[#F72B7E] hover:to-[#FF6B35] rounded-lg hover:shadow-lg hover:shadow-pink-500/30 transition-all duration-300 transform hover:-translate-y-0.5 group border border-black/10 overflow-hidden"
                 >
-                  <GitHubIcon class="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-300" />
+                  <GitHubIcon class="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform duration-300" />
                   <span class="relative z-10">GitHub</span>
                   <!-- Shine effect -->
                   <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
@@ -111,23 +111,23 @@ watch(() => useRoute().path, () => {
 
           <!-- Mobile Menu Button -->
           <button
-            class="menu-button md:hidden relative flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-r from-[#FF6B35]/10 to-[#F72B7E]/10 hover:from-[#FF6B35]/20 hover:to-[#F72B7E]/20 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#FF6B35] focus:ring-offset-2 border border-[#FF6B35]/20"
+            class="menu-button md:hidden relative flex flex-col items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-r from-[#FF6B35]/10 to-[#F72B7E]/10 hover:from-[#FF6B35]/20 hover:to-[#F72B7E]/20 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#FF6B35] focus:ring-offset-2 border border-[#FF6B35]/20"
             :aria-expanded="showMenu"
             aria-label="Toggle navigation menu"
             @click="showMenu = !showMenu"
           >
             <!-- Animated hamburger icon -->
-            <div class="flex flex-col justify-center items-center w-6 h-6 space-y-1">
+            <div class="flex flex-col justify-center items-center w-5 h-5 space-y-1">
               <span
-                class="block h-0.5 w-5 bg-gradient-to-r from-[#FF6B35] to-[#F72B7E] transition-all duration-300"
+                class="block h-0.5 w-4 bg-gradient-to-r from-[#FF6B35] to-[#F72B7E] transition-all duration-300"
                 :class="showMenu ? 'rotate-45 translate-y-1.5' : ''"
               />
               <span
-                class="block h-0.5 w-5 bg-gradient-to-r from-[#FF6B35] to-[#F72B7E] transition-all duration-300"
+                class="block h-0.5 w-4 bg-gradient-to-r from-[#FF6B35] to-[#F72B7E] transition-all duration-300"
                 :class="showMenu ? 'opacity-0' : ''"
               />
               <span
-                class="block h-0.5 w-5 bg-gradient-to-r from-[#FF6B35] to-[#F72B7E] transition-all duration-300"
+                class="block h-0.5 w-4 bg-gradient-to-r from-[#FF6B35] to-[#F72B7E] transition-all duration-300"
                 :class="showMenu ? '-rotate-45 -translate-y-1.5' : ''"
               />
             </div>
@@ -149,13 +149,13 @@ watch(() => useRoute().path, () => {
           >
             <div class="bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-2xl overflow-hidden">
               <!-- Mobile Logo -->
-              <div class="px-6 py-4 border-b border-slate-200/50 dark:border-slate-700/50">
+              <div class="px-6 py-3 border-b border-slate-200/50 dark:border-slate-700/50">
                 <NuxtLink
                   to="/"
                   title="Srlinks"
-                  class="flex items-center space-x-3 text-lg font-bold"
+                  class="flex items-center space-x-3 text-base font-bold"
                 >
-                  <img src="/sink.png" alt="Srlinks" class="w-8 h-8 rounded-lg">
+                  <img src="/sink.png" alt="Srlinks" class="w-7 h-7 rounded-lg">
                   <span class="bg-gradient-to-r from-[#FF6B35] via-[#F72B7E] to-[#FF6B35] bg-clip-text text-transparent font-extrabold">
                     Srlinks
                   </span>
@@ -163,11 +163,11 @@ watch(() => useRoute().path, () => {
               </div>
 
               <!-- Mobile Menu Items -->
-              <div class="p-4 space-y-2">
+              <div class="p-3 space-y-2">
                 <NuxtLink
                   to="/dashboard"
                   title="Srlinks Dashboard"
-                  class="flex items-center w-full px-4 py-3 text-white bg-gradient-to-r from-[#FF6B35] to-[#F72B7E] hover:from-[#F72B7E] hover:to-[#FF6B35] rounded-xl transition-all duration-300 font-semibold border border-black/10 shadow-md hover:shadow-lg"
+                  class="flex items-center w-full px-4 py-2.5 text-white bg-gradient-to-r from-[#FF6B35] to-[#F72B7E] hover:from-[#F72B7E] hover:to-[#FF6B35] rounded-lg transition-all duration-300 font-semibold border border-black/10 shadow-md hover:shadow-lg text-sm"
                 >
                   Dashboard
                 </NuxtLink>
@@ -177,15 +177,15 @@ watch(() => useRoute().path, () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   title="GitHub Repository"
-                  class="flex items-center w-full px-4 py-3 text-white bg-gradient-to-r from-[#FF6B35] to-[#F72B7E] hover:from-[#F72B7E] hover:to-[#FF6B35] rounded-xl transition-all duration-300 font-semibold border border-black/10 shadow-md hover:shadow-lg"
+                  class="flex items-center w-full px-4 py-2.5 text-white bg-gradient-to-r from-[#FF6B35] to-[#F72B7E] hover:from-[#F72B7E] hover:to-[#FF6B35] rounded-lg transition-all duration-300 font-semibold border border-black/10 shadow-md hover:shadow-lg text-sm"
                 >
-                  <GitHubIcon class="w-5 h-5 mr-3" />
+                  <GitHubIcon class="w-4 h-4 mr-2" />
                   GitHub
                 </a>
 
                 <!-- Mobile Controls -->
-                <div class="flex items-center justify-between pt-4 border-t border-slate-200/50 dark:border-slate-700/50">
-                  <span class="text-sm font-medium text-slate-600 dark:text-slate-400">Theme</span>
+                <div class="flex items-center justify-between pt-3 border-t border-slate-200/50 dark:border-slate-700/50">
+                  <span class="text-xs font-medium text-slate-600 dark:text-slate-400">Theme</span>
                   <div class="flex items-center space-x-3">
                     <SwitchTheme />
                   </div>
