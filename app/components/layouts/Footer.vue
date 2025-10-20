@@ -1,76 +1,59 @@
 <script setup>
-import { BloggerIcon, GitHubIcon, GmailIcon, MastodonIcon, TelegramIcon } from 'vue3-simple-icons'
-
-const { email, telegram, blog, mastodon, github } = useAppConfig()
+import { BloggerIcon, GitHubIcon, GmailIcon } from 'vue3-simple-icons'
+const { email, blog, github } = useAppConfig()
 </script>
 
 <template>
-  <section class="md:pt-6 bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 border-t border-purple-500/20">
-    <div class="container flex flex-col items-center py-8 mx-auto sm:flex-row">
+  <section class="md:pt-4 bg-black border-t border-[#FF6B35]/20">
+    <div class="container flex flex-col items-center py-5 mx-auto sm:flex-row">
       <a
         href="/"
-        class="text-xl font-black leading-none text-white select-none hover:text-purple-400 transition-colors logo"
-        title="urlsclickearn"
-      >urlsclickearn</a>
-      <a
-        class="mt-4 text-sm text-slate-400 hover:text-purple-400 transition-colors sm:ml-4 sm:pl-4 sm:border-l sm:border-purple-500/30 sm:mt-0"
-        href="https://urlsclickearn.xyz"
-        target="_blank"
-        title="urlsclickearn"
+        class="text-lg font-black leading-none select-none logo transition-all duration-300 hover:scale-105"
+        title="Srlinks"
       >
-        &copy; {{ new Date().getFullYear() }} urlsclickearn.xyz
+        <span class="bg-gradient-to-r from-[#FF6B35] via-[#F72B7E] to-[#FF6B35] bg-clip-text text-transparent font-extrabold tracking-tight bg-[length:200%_auto] animate-gradient">
+          Srlinks
+        </span>
+      </a>
+      <a
+        class="mt-3 text-xs text-slate-400 hover:bg-gradient-to-r hover:from-[#FF6B35] hover:to-[#F72B7E] hover:bg-clip-text hover:text-transparent transition-all duration-300 sm:ml-4 sm:pl-4 sm:border-l sm:border-[#FF6B35]/30 sm:mt-0 font-medium"
+        href="https://srlinks.xyz"
+        target="_blank"
+        title="Srlinks"
+      >
+        &copy; {{ new Date().getFullYear() }} srlinks.xyz
       </a>
       <span
-        class="inline-flex justify-center mt-4 space-x-5 sm:ml-auto sm:mt-0 sm:justify-start"
+        class="inline-flex justify-center mt-3 space-x-4 sm:ml-auto sm:mt-0 sm:justify-start"
       >
         <a
           v-if="email"
           :href="`mailto:${email}`"
           title="Email"
-          class="text-slate-400 hover:text-purple-400 transition-all hover:scale-110 transform"
+          class="text-slate-400 hover:text-[#FF6B35] transition-all duration-300 hover:scale-110 transform group"
         >
           <span class="sr-only">Email</span>
-          <GmailIcon class="w-6 h-6" />
-        </a>
-        <a
-          v-if="telegram"
-          :href="telegram"
-          target="_blank"
-          title="Telegram"
-          class="text-slate-400 hover:text-purple-400 transition-all hover:scale-110 transform"
-        >
-          <span class="sr-only">Telegram</span>
-          <TelegramIcon class="w-6 h-6" />
+          <GmailIcon class="w-5 h-5 group-hover:drop-shadow-glow-orange transition-all duration-300" />
         </a>
         <a
           v-if="blog"
           :href="blog"
           target="_blank"
           title="Blog"
-          class="text-slate-400 hover:text-purple-400 transition-all hover:scale-110 transform"
+          class="text-slate-400 hover:text-[#F72B7E] transition-all duration-300 hover:scale-110 transform group"
         >
           <span class="sr-only">Blog</span>
-          <BloggerIcon class="w-6 h-6" />
-        </a>
-        <a
-          v-if="mastodon"
-          :href="mastodon"
-          target="_blank"
-          title="Mastodon"
-          class="text-slate-400 hover:text-purple-400 transition-all hover:scale-110 transform"
-        >
-          <span class="sr-only">Mastodon</span>
-          <MastodonIcon class="w-6 h-6" />
+          <BloggerIcon class="w-5 h-5 group-hover:drop-shadow-glow-pink transition-all duration-300" />
         </a>
         <a
           v-if="github"
           :href="github"
           target="_blank"
           title="GitHub"
-          class="text-slate-400 hover:text-purple-400 transition-all hover:scale-110 transform"
+          class="text-slate-400 hover:text-[#FF6B35] transition-all duration-300 hover:scale-110 hover:rotate-12 transform group"
         >
           <span class="sr-only">GitHub</span>
-          <GitHubIcon class="w-6 h-6" />
+          <GitHubIcon class="w-5 h-5 group-hover:drop-shadow-glow-orange transition-all duration-300" />
         </a>
       </span>
     </div>
@@ -81,8 +64,33 @@ const { email, telegram, blog, mastodon, github } = useAppConfig()
 </template>
 
 <style scoped>
-/* Add glow effect on icon hover */
+/* Gradient animation for logo */
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+  animation: gradient 3s ease infinite;
+}
+
+/* Enhanced glow effects with brand colors */
+.group:hover .drop-shadow-glow-orange {
+  filter: drop-shadow(0 0 12px rgba(255, 107, 53, 0.8)) drop-shadow(0 0 20px rgba(255, 107, 53, 0.4));
+}
+
+.group:hover .drop-shadow-glow-pink {
+  filter: drop-shadow(0 0 12px rgba(247, 43, 126, 0.8)) drop-shadow(0 0 20px rgba(247, 43, 126, 0.4));
+}
+
+/* Smooth transitions */
+a {
+  transition: all 0.3s ease;
+}
+
+/* Enhanced hover effect for icons */
 a:hover svg {
-  filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.6));
+  transform: translateY(-2px);
 }
 </style>
