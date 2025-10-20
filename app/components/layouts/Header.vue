@@ -42,9 +42,9 @@ watch(() => useRoute().path, () => {
         : 'bg-transparent',
     ]"
   >
-    <section class="pb-6">
-      <nav class="container relative z-50 h-20 select-none">
-        <div class="container relative flex flex-wrap items-center justify-between h-20 px-4 mx-auto overflow-hidden font-medium lg:justify-center">
+    <section class="pb-3">
+      <nav class="container relative z-50 h-16 select-none">
+        <div class="container relative flex flex-wrap items-center justify-between h-16 px-4 mx-auto overflow-hidden font-medium lg:justify-center">
           <!-- Logo Section with enhanced styling -->
           <div class="flex items-center justify-start w-1/4 h-full pr-4">
             <NuxtLink
