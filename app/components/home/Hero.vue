@@ -3,13 +3,6 @@ import { onMounted, ref } from 'vue'
 
 const recentList = ref([])
 
-// Animated stats
-const animatedStats = ref({
-  links: 0,
-  clicks: 0,
-  users: 0,
-})
-
 function formatTime(timestamp) {
   if (!timestamp)
     return 'Just now'
@@ -90,32 +83,8 @@ function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
-// Animate stats on mount
-function animateStats() {
-  const targetStats = { links: 500, clicks: 10, users: 50 }
-  const duration = 2000
-  const steps = 60
-  const interval = duration / steps
-
-  let currentStep = 0
-  const timer = setInterval(() => {
-    currentStep++
-    const progress = currentStep / steps
-
-    animatedStats.value = {
-      links: Math.floor(targetStats.links * progress),
-      clicks: Math.floor(targetStats.clicks * progress),
-      users: Math.floor(targetStats.users * progress),
-    }
-
-    if (currentStep >= steps)
-      clearInterval(timer)
-  }, interval)
-}
-
 onMounted(() => {
   loadRecent()
-  animateStats()
 
   // Load Native Async Ad Banner script
   const nativeScript = document.createElement('script')
@@ -233,19 +202,22 @@ export default {
             </div>
           </div>
 
-          <!-- Quick Stats -->
+          <!-- Quick Benefits - Value Propositions -->
           <div class="quick-stats">
             <div class="stat-item">
-              <span class="stat-number">{{ animatedStats.links }}K+</span>
-              <span class="stat-label">Links Created</span>
+              <div class="stat-icon-large">⚡</div>
+              <span class="stat-number">Shorten Instantly</span>
+              <span class="stat-label">Transform any URL in seconds</span>
             </div>
             <div class="stat-item">
-              <span class="stat-number">{{ animatedStats.clicks }}M+</span>
-              <span class="stat-label">Clicks Tracked</span>
+              <div class="stat-icon-large">📱</div>
+              <span class="stat-number">QR Code Ready</span>
+              <span class="stat-label">Print & share anywhere</span>
             </div>
             <div class="stat-item">
-              <span class="stat-number">{{ animatedStats.users }}K+</span>
-              <span class="stat-label">Happy Users</span>
+              <div class="stat-icon-large">🎯</div>
+              <span class="stat-number">Track Everything</span>
+              <span class="stat-label">Clicks, location, devices</span>
             </div>
           </div>
         </div>
@@ -513,31 +485,52 @@ export default {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  max-width: 600px;
+  max-width: 800px;
   margin: 3rem auto 0;
 }
 
 .stat-item {
   text-align: center;
   color: white;
+  padding: 1.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.stat-icon-large {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 }
 
 .stat-number {
   display: block;
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   font-weight: 900;
   background: linear-gradient(45deg, #ffd700, #ffed4e);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 0.5rem;
+  text-shadow: none;
 }
 
 .stat-label {
   font-size: 0.875rem;
   opacity: 0.95;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.3px;
+  line-height: 1.4;
+  display: block;
 }
 
 /* Features Section */
@@ -738,6 +731,15 @@ export default {
   gap: 0.5rem;
   color: #4a5568;
   font-size: 0.875rem;
+  background: transparent;
+  padding: 0;
+  border: none;
+}
+
+.link-stats .stat-item:hover {
+  transform: none;
+  background: transparent;
+  box-shadow: none;
 }
 
 .stat-icon {
@@ -826,6 +828,14 @@ export default {
   .quick-stats {
     grid-template-columns: 1fr;
     gap: 1rem;
+  }
+
+  .stat-number {
+    font-size: 1.25rem;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
   }
 
   .features-grid {
