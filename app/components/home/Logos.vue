@@ -5,7 +5,7 @@
     <!-- Additional content about website -->
     <div class="max-w-4xl mx-auto text-center">
       <h3 class="text-2xl font-bold gradient-text mb-4">
-        Why Choose urlsclickearn?
+        Why Choose Srlinks?
       </h3>
       <p class="text-lg text-slate-600 dark:text-slate-300 mb-8">
         Experience the power of modern link management with our cutting-edge platform. 
