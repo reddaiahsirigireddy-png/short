@@ -1,10 +1,9 @@
 export default defineAppConfig({
-  title: 'urlsclickearn',
-  email: 'contact@urlsclickearn.xyz',
-  github: 'https://github.com/ccbikai/sink',
+  title: 'Srlinks',
+  email: 'reddaiahsirigireddy@gmail.com',
+  github: 'https://sirigireddyreddaiahh.github.io/',
   telegram: 'https://urlsclickearn.xyz/telegram',
-  mastodon: 'https://urlsclickearn.xyz/mastodon',
-  blog: 'https://urlsclickearn.xyz/blog',
+  blog: 'https://srlinks.live/blog',
   description: 'A Simple / Speedy / Secure Link Shortener with Analytics, 100% run on Cloudflare.',
   image: 'https://urlsclickearn.xyz/banner.png',
   previewTTL: 300, // 5 minutes
