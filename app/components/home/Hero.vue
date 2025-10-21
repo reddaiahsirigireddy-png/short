@@ -1,15 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 
-const url = ref('')
-const slug = ref('')
-const short = ref('')
-const message = ref('')
-const messageType = ref('success')
 const recentList = ref([])
-const copied = ref(false)
-const showAdModal = ref(false)
-const adTimer = ref(5)
 
 // Animated stats
 const animatedStats = ref({
@@ -74,49 +66,6 @@ function formatClicks(item) {
   return c.toString()
 }
 
-async function createShort() {
-  message.value = ''
-  short.value = ''
-
-  if (!url.value) {
-    message.value = 'Please enter a valid URL'
-    messageType.value = 'error'
-    return
-  }
-
-  try {
-    const body = { url: url.value }
-    if (slug.value)
-      body.slug = slug.value
-
-    const res = await fetch('/api/link/create', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    })
-
-    if (!res.ok) {
-      const error = await res.json()
-      message.value = error?.message || 'Failed to create short link'
-      messageType.value = 'error'
-      return
-    }
-
-    const data = await res.json()
-    short.value = data?.shortLink || `${location.origin}/${data?.link?.slug || data?.slug}`
-    message.value = 'Short URL created successfully!'
-    messageType.value = 'success'
-    url.value = ''
-    slug.value = ''
-
-    await loadRecent()
-  }
-  catch (err) {
-    message.value = err?.message || 'Something went wrong'
-    messageType.value = 'error'
-  }
-}
-
 async function loadRecent() {
   try {
     const res = await fetch('/api/link/list?limit=6')
@@ -134,40 +83,6 @@ async function loadRecent() {
   }
   catch (_e) {
     recentList.value = []
-  }
-}
-
-function copyShort() {
-  if (!short.value)
-    return
-  navigator.clipboard.writeText(short.value)
-  copied.value = true
-  setTimeout(() => copied.value = false, 2000)
-}
-
-function selectAll(event) {
-  event.target.select()
-}
-
-function openQR() {
-  // QR code generation logic
-  window.open(`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(short.value)}`, '_blank')
-}
-
-function shareLink(platform) {
-  const encodedUrl = encodeURIComponent(short.value)
-  const urls = {
-    twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=Check out this link!`,
-    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
-  }
-  window.open(urls[platform], '_blank', 'width=600,height=400')
-}
-
-function _skipAd() {
-  if (adTimer.value === 0) {
-    showAdModal.value = false
-    // Redirect to destination
   }
 }
 
@@ -216,18 +131,6 @@ onMounted(() => {
   popunderScript.src = '//preferablyending.com/84/38/22/84382233fb94a7cfb87278684808293a.js'
   document.getElementById('popunder-ad-container').appendChild(popunderScript)
   console.log('Popunder Ad script loaded.')
-
-  // Dynamically load the ads script
-  const script = document.createElement('script')
-  script.src = 'https://example.com/ads.js' // Replace with the actual ads script URL
-  script.async = true
-  document.body.appendChild(script)
-
-  // Dynamically load the Anti-Adblock JS script
-  const antiAdblockScript = document.createElement('script')
-  antiAdblockScript.src = '//preferablyending.com/84/38/22/84382233fb94a7cfb87278684808293a.js'
-  antiAdblockScript.async = true
-  document.body.appendChild(antiAdblockScript)
 })
 </script>
 
@@ -265,7 +168,7 @@ export default {
     <main>
       <!-- HERO SECTION -->
       <section class="hero-gradient min-h-screen relative overflow-hidden">
-        <!-- Animated Background with New Colors -->
+        <!-- Animated Background -->
         <div class="absolute inset-0">
           <div class="floating-circle circle-1" />
           <div class="floating-circle circle-2" />
@@ -283,96 +186,51 @@ export default {
             </p>
           </div>
 
-          <!-- URL SHORTENER CARD -->
-          <div class="glass-card max-w-4xl mx-auto">
-            <form class="space-y-6" @submit.prevent="createShort">
-              <div class="grid md:grid-cols-3 gap-4">
-                <div class="md:col-span-2">
-                  <label class="form-label">
-                    <span class="label-icon">🔗</span>
-                    Paste your long URL here
-                  </label>
-                  <input
-                    v-model="url"
-                    type="url"
-                    class="form-input"
-                    placeholder="https://example.com/very-long-url-here"
-                    required
-                  >
-                </div>
-                <div>
-                  <label class="form-label">
-                    <span class="label-icon">✨</span>
-                    Custom alias (optional)
-                  </label>
-                  <input
-                    v-model="slug"
-                    type="text"
-                    class="form-input"
-                    placeholder="my-link"
-                  >
-                </div>
-              </div>
-
-              <div class="flex flex-wrap gap-4 items-center">
-                <button type="submit" class="btn-primary group">
-                  <span>Shorten URL</span>
-                  <svg class="btn-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <!-- MAIN CTA - GO TO DASHBOARD -->
+          <div class="max-w-2xl mx-auto mb-16">
+            <div class="glass-card text-center py-12 px-8">
+              <h2 class="text-3xl font-bold mb-4 bg-gradient-to-r from-[#FF6B35] via-[#F72B7E] to-[#FF6B35] bg-clip-text text-transparent">
+                Start Shortening Links Now
+              </h2>
+              <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">
+                Access your dashboard to create, manage, and track all your short links
+              </p>
+              
+              <NuxtLink 
+                to="/dashboard" 
+                class="inline-flex items-center gap-3 px-12 py-5 text-xl font-bold text-white rounded-2xl transition-all duration-300 hover:scale-110 hover:shadow-2xl group relative overflow-hidden"
+                style="background: linear-gradient(135deg, #FF6B35 0%, #F72B7E 100%)"
+              >
+                <!-- Shine effect -->
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
+                
+                <span class="relative z-10 flex items-center gap-3">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  Go to Dashboard
+                  <svg class="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
-                </button>
-                <NuxtLink to="/dashboard" class="btn-secondary">
-                  <span class="btn-icon">📊</span>
-                  Dashboard
-                </NuxtLink>
-              </div>
-            </form>
+                </span>
+              </NuxtLink>
 
-            <!-- Success Message -->
-            <transition name="slide-up">
-              <div v-if="message" class="alert" :class="[messageType === 'success' ? 'alert-success' : 'alert-error']">
-                <div class="alert-icon">
-                  {{ messageType === 'success' ? '✅' : '⚠️' }}
+              <!-- Trust badges -->
+              <div class="flex items-center justify-center gap-8 mt-8 flex-wrap">
+                <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+                  <span class="text-xl">⚡</span>
+                  <span class="font-semibold">Instant Setup</span>
                 </div>
-                <span>{{ message }}</span>
-              </div>
-            </transition>
-
-            <!-- Shortened URL Result -->
-            <transition name="scale-in">
-              <div v-if="short" class="result-card">
-                <div class="result-header">
-                  <span class="result-badge">NEW</span>
-                  <span class="result-title">Your short link is ready!</span>
+                <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+                  <span class="text-xl">🔒</span>
+                  <span class="font-semibold">Secure</span>
                 </div>
-                <div class="result-content">
-                  <input
-                    :value="short"
-                    readonly
-                    class="result-input"
-                    @click="selectAll"
-                  >
-                  <button class="btn-copy" @click="copyShort">
-                    <span v-if="!copied">Copy</span>
-                    <span v-else>Copied!</span>
-                  </button>
-                  <button class="btn-qr" @click="openQR">
-                    <span>QR</span>
-                  </button>
-                </div>
-                <div class="result-actions">
-                  <button class="share-btn twitter" @click="shareLink('twitter')">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" /></svg>
-                  </button>
-                  <button class="share-btn facebook" @click="shareLink('facebook')">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
-                  </button>
-                  <button class="share-btn linkedin" @click="shareLink('linkedin')">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
-                  </button>
+                <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+                  <span class="text-xl">📊</span>
+                  <span class="font-semibold">Real-time Analytics</span>
                 </div>
               </div>
-            </transition>
+            </div>
           </div>
 
           <!-- Quick Stats -->
@@ -393,7 +251,7 @@ export default {
         </div>
       </section>
 
-      <!-- # Add Section: Native Async Ad Banner Before Features -->
+      <!-- Native Async Ad Banner Before Features -->
       <section>
         <div id="container-baafe128a08c806c01cbd4b9d77ced82" />
       </section>
@@ -414,13 +272,9 @@ export default {
           <div class="features-grid">
             <div class="feature-card group">
               <div class="feature-icon-wrapper">
-                <div class="feature-icon">
-                  ⚡
-                </div>
+                <div class="feature-icon">⚡</div>
               </div>
-              <h3 class="feature-title">
-                Lightning Fast
-              </h3>
+              <h3 class="feature-title">Lightning Fast</h3>
               <p class="feature-desc">
                 Create short links instantly with our optimized infrastructure
               </p>
@@ -429,13 +283,9 @@ export default {
 
             <div class="feature-card group">
               <div class="feature-icon-wrapper">
-                <div class="feature-icon">
-                  📊
-                </div>
+                <div class="feature-icon">📊</div>
               </div>
-              <h3 class="feature-title">
-                Real-time Analytics
-              </h3>
+              <h3 class="feature-title">Real-time Analytics</h3>
               <p class="feature-desc">
                 Track clicks, locations, devices, and more in real-time
               </p>
@@ -444,13 +294,9 @@ export default {
 
             <div class="feature-card group">
               <div class="feature-icon-wrapper">
-                <div class="feature-icon">
-                  🎨
-                </div>
+                <div class="feature-icon">🎨</div>
               </div>
-              <h3 class="feature-title">
-                Custom Aliases
-              </h3>
+              <h3 class="feature-title">Custom Aliases</h3>
               <p class="feature-desc">
                 Create memorable branded short links with custom aliases
               </p>
@@ -459,13 +305,9 @@ export default {
 
             <div class="feature-card group">
               <div class="feature-icon-wrapper">
-                <div class="feature-icon">
-                  📱
-                </div>
+                <div class="feature-icon">📱</div>
               </div>
-              <h3 class="feature-title">
-                QR Codes
-              </h3>
+              <h3 class="feature-title">QR Codes</h3>
               <p class="feature-desc">
                 Generate QR codes for your links instantly
               </p>
@@ -474,13 +316,9 @@ export default {
 
             <div class="feature-card group">
               <div class="feature-icon-wrapper">
-                <div class="feature-icon">
-                  🔒
-                </div>
+                <div class="feature-icon">🔒</div>
               </div>
-              <h3 class="feature-title">
-                Secure & Reliable
-              </h3>
+              <h3 class="feature-title">Secure & Reliable</h3>
               <p class="feature-desc">
                 Enterprise-grade security with 99.9% uptime guarantee
               </p>
@@ -489,13 +327,9 @@ export default {
 
             <div class="feature-card group">
               <div class="feature-icon-wrapper">
-                <div class="feature-icon">
-                  🤖
-                </div>
+                <div class="feature-icon">🤖</div>
               </div>
-              <h3 class="feature-title">
-                AI-Powered
-              </h3>
+              <h3 class="feature-title">AI-Powered</h3>
               <p class="feature-desc">
                 Smart slug suggestions powered by artificial intelligence
               </p>
@@ -505,19 +339,17 @@ export default {
         </div>
       </section>
 
-      <!-- # Add Section: Popunder Ad After Features -->
+      <!-- Popunder Ad After Features -->
       <section>
         <div id="popunder-ad-container" />
       </section>
 
       <!-- RECENT LINKS -->
-      <section class="recent-section">
+      <section class="recent-section" v-if="recentList.length > 0">
         <div class="container mx-auto px-4">
           <div class="section-header">
             <span class="section-badge">TRENDING</span>
-            <h2 class="section-title">
-              Recently Created Links
-            </h2>
+            <h2 class="section-title">Recently Created Links</h2>
           </div>
 
           <div class="links-container">
@@ -550,18 +382,13 @@ export default {
       <!-- CTA SECTION -->
       <section class="cta-section">
         <div class="container mx-auto px-4 text-center">
-          <h2 class="cta-title">
-            Start shortening links today
-          </h2>
+          <h2 class="cta-title">Start shortening links today</h2>
           <p class="cta-subtitle">
             Join thousands of users who trust us with their links
           </p>
           <div class="cta-buttons">
-            <button class="btn-primary btn-large" @click="scrollToTop">
+            <NuxtLink to="/dashboard" class="btn-primary btn-large">
               Get Started Free
-            </button>
-            <NuxtLink to="/dashboard" class="btn-secondary btn-large">
-              View Dashboard
             </NuxtLink>
           </div>
         </div>
@@ -571,10 +398,7 @@ export default {
       <div class="footer-ad">
         <div class="container mx-auto px-4">
           <div class="ad-wrapper">
-            <!-- Footer ad placement -->
-            <div class="ad-placeholder-footer">
-              Advertisement Space
-            </div>
+            <div class="ad-placeholder-footer">Advertisement Space</div>
           </div>
         </div>
       </div>
@@ -584,12 +408,33 @@ export default {
 </template>
 
 <style scoped>
-/* Global Styles */
-* {
-  box-sizing: border-box;
+/* Keep all existing styles from original file */
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0) rotate(0deg); 
+    opacity: 0.6; 
+  }
+  50% { 
+    transform: translateY(-100vh) rotate(360deg); 
+    opacity: 0; 
+  }
 }
 
-/* Hero Section */
+@keyframes shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-shine {
+  animation: shine 0.6s ease-out;
+}
+
 .hero-gradient {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #fda085 100%);
   position: relative;
@@ -626,13 +471,6 @@ export default {
   animation-delay: 10s;
 }
 
-@keyframes float {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  25% { transform: translate(30px, -30px) rotate(90deg); }
-  50% { transform: translate(-20px, 20px) rotate(180deg); }
-  75% { transform: translate(40px, 10px) rotate(270deg); }
-}
-
 .hero-title {
   font-size: 4rem;
   font-weight: 900;
@@ -663,276 +501,14 @@ export default {
   margin: 0 auto;
 }
 
-/* Glass Card */
 .glass-card {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
   border-radius: 24px;
-  padding: 2.5rem;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Form Styles */
-.form-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #4a5568;
-  margin-bottom: 0.5rem;
-}
-
-.label-icon {
-  font-size: 1rem;
-}
-
-.form-input {
-  width: 100%;
-  padding: 0.875rem 1rem;
-  border: 2px solid #e2e8f0;
-  border-radius: 12px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  background: white;
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: #FF6B35;
-  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
-  transform: translateY(-2px);
-}
-
-/* Buttons */
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: linear-gradient(135deg, #FF6B35 0%, #F72B7E 100%);
-  color: white;
-  padding: 1rem 2rem;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 30px rgba(102, 126, 234, 0.5);
-}
-
-.btn-arrow {
-  width: 20px;
-  height: 20px;
-  transition: transform 0.3s ease;
-}
-
-.btn-primary:hover .btn-arrow {
-  transform: translateX(4px);
-}
-
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: white;
-  color: #FF6B35;
-  padding: 1rem 2rem;
-  border-radius: 12px;
-  font-weight: 600;
-  border: 2px solid #FF6B35;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.btn-secondary:hover {
-  background: #667eea;
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
-}
-
-.btn-icon {
-  font-size: 1.2rem;
-}
-
-/* Alert Messages */
-.alert {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem 1.5rem;
-  border-radius: 12px;
-  margin-top: 1.5rem;
-  animation: slideUp 0.3s ease;
-}
-
-.alert-success {
-  background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
-  color: #0c5460;
-}
-
-.alert-error {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  color: white;
-}
-
-.alert-icon {
-  font-size: 1.5rem;
-}
-
-@keyframes slideUp {
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Result Card */
-.result-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 16px;
-  padding: 1.5rem;
-  margin-top: 1.5rem;
-  color: white;
-  animation: scaleIn 0.3s ease;
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.result-header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.result-badge {
-  background: rgba(255, 255, 255, 0.2);
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-
-.result-title {
-  font-weight: 600;
-}
-
-.result-content {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.result-input {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  border-radius: 10px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  font-size: 1rem;
-}
-
-.result-input::selection {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.btn-copy, .btn-qr {
-  padding: 0.75rem 1.5rem;
-  border-radius: 10px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.btn-copy:hover, .btn-qr:hover {
-/* Continuing from .result-input::selection */
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.btn-copy, .btn-qr {
-  padding: 0.75rem 1.25rem;
-  border-radius: 10px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.btn-copy:hover, .btn-qr:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
-}
-
-.result-actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.share-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  color: white;
-}
-
-.share-btn.twitter {
-  background: #1DA1F2;
-}
-
-.share-btn.facebook {
-  background: #1877F2;
-}
-
-.share-btn.linkedin {
-  background: #0A66C2;
-}
-
-.share-btn:hover {
-  transform: scale(1.1) rotate(5deg);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-}
-
-/* Quick Stats */
 .quick-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -955,18 +531,6 @@ export default {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 0.5rem;
-  animation: countUp 2s ease;
-}
-
-@keyframes countUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .stat-label {
@@ -974,112 +538,6 @@ export default {
   opacity: 0.95;
   text-transform: uppercase;
   letter-spacing: 1px;
-}
-
-/* Ad Modal */
-.ad-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(5px);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-}
-
-.ad-modal {
-  background: white;
-  border-radius: 20px;
-  max-width: 800px;
-  width: 100%;
-  overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-  animation: modalSlideIn 0.3s ease;
-}
-
-@keyframes modalSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.ad-header {
-  background: linear-gradient(135deg, #FF6B35 0%, #F72B7E 100%);
-  color: white;
-  padding: 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.ad-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-
-.ad-timer {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  background: rgba(255, 255, 255, 0.2);
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  position: relative;
-}
-
-.timer-progress {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 3px;
-  background: #ffd700;
-  border-radius: 3px;
-  transition: width 1s linear;
-}
-
-.ad-content {
-  padding: 2rem;
-  min-height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ad-placeholder {
-  width: 100%;
-  height: 300px;
-  background: #f7fafc;
-  border: 2px dashed #cbd5e0;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #a0aec0;
-  font-size: 1.125rem;
-}
-
-.btn-skip {
-  width: 100%;
-  background: linear-gradient(135deg, #FF6B35 0%, #F72B7E 100%);
-  color: #ffffff;
-  padding: 1.25rem;
-  border: none;
-  font-size: 1.125rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.btn-skip:hover {
-  background: linear-gradient(135deg, #F72B7E 0%, #FF6B35 100%);
-  transform: translateY(-2px);
 }
 
 /* Features Section */
@@ -1161,8 +619,6 @@ export default {
   align-items: center;
   justify-content: center;
   font-size: 1.75rem;
-  position: relative;
-  z-index: 1;
   transition: transform 0.3s ease;
 }
 
@@ -1219,24 +675,6 @@ export default {
   padding: 1.5rem;
   border: 1px solid #e2e8f0;
   transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.link-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-}
-
-.link-card:hover::before {
-  transform: translateX(0);
 }
 
 .link-card:hover {
@@ -1314,18 +752,6 @@ export default {
   overflow: hidden;
 }
 
-.cta-section::before {
-  content: '';
-  position: absolute;
-  width: 500px;
-  height: 500px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  top: -250px;
-  right: -250px;
-  animation: float 15s infinite ease-in-out;
-}
-
 .cta-title {
   font-size: 3rem;
   font-weight: 900;
@@ -1347,25 +773,27 @@ export default {
   flex-wrap: wrap;
 }
 
-.cta-buttons .btn-primary {
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   background: white;
   color: #FF6B35;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
 }
 
-.cta-buttons .btn-primary:hover {
+.btn-primary:hover {
   background: #f8f9fa;
+  transform: translateY(-2px);
 }
 
-.cta-buttons .btn-secondary {
-  background: transparent;
-  border-color: white;
-  color: white;
-}
-
-.cta-buttons .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: white;
-  color: white;
+.btn-large {
+  padding: 1.25rem 2.5rem;
+  font-size: 1.125rem;
 }
 
 /* Footer Ad */
@@ -1373,11 +801,6 @@ export default {
   padding: 2rem 0;
   background: #f8fafc;
   border-top: 1px solid #e2e8f0;
-}
-
-.ad-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
 }
 
 .ad-placeholder-footer {
@@ -1390,64 +813,7 @@ export default {
   font-size: 1.125rem;
 }
 
-/* Animations */
-.animate-fade-in {
-  animation: fadeIn 1s ease;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Transitions */
-.slide-up-enter-active,
-.slide-up-leave-active {
-  transition: all 0.3s ease;
-}
-
-.slide-up-enter-from {
-  opacity: 0;
-  transform: translateY(10px);
-}
-
-.slide-up-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
-}
-
-.scale-in-enter-active,
-.scale-in-leave-active {
-  transition: all 0.3s ease;
-}
-
-.scale-in-enter-from {
-  opacity: 0;
-  transform: scale(0.95);
-}
-
-.scale-in-leave-to {
-  opacity: 0;
-  transform: scale(1.05);
-}
-
-.modal-fade-enter-active,
-.modal-fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.modal-fade-enter-from,
-.modal-fade-leave-to {
-  opacity: 0;
-}
-
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 768px) {
   .hero-title {
     font-size: 2.5rem;
@@ -1455,10 +821,6 @@ export default {
 
   .hero-subtitle {
     font-size: 1.125rem;
-  }
-
-  .glass-card {
-    padding: 1.5rem;
   }
 
   .quick-stats {
@@ -1480,149 +842,6 @@ export default {
 
   .cta-title {
     font-size: 2rem;
-  }
-
-  .cta-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .cta-buttons .btn-primary,
-  .cta-buttons .btn-secondary {
-    width: 100%;
-    max-width: 300px;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-title {
-    font-size: 2rem;
-  }
-
-  .stat-number {
-    font-size: 1.75rem;
-  }
-
-  .btn-primary,
-  .btn-secondary {
-    padding: 0.875rem 1.5rem;
-    font-size: 0.875rem;
-  }
-
-  .result-content {
-    flex-direction: column;
-  }
-
-  .result-input,
-  .btn-copy,
-  .btn-qr {
-    width: 100%;
-  }
-}
-
-/* Utility Classes */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.px-4 {
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-
-.pt-24 {
-  padding-top: 6rem;
-}
-
-.pb-16 {
-  padding-bottom: 4rem;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.mb-12 {
-  margin-bottom: 3rem;
-}
-
-.space-y-6 > * + * {
-  margin-top: 1.5rem;
-}
-
-.grid {
-  display: grid;
-}
-
-.gap-4 {
-  gap: 1rem;
-}
-
-.flex {
-  display: flex;
-}
-
-.items-center {
-  align-items: center;
-}
-
-.justify-center {
-  justify-content: center;
-}
-
-.relative {
-  position: relative;
-}
-
-.absolute {
-  position: absolute;
-}
-
-.inset-0 {
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-.z-10 {
-  z-index: 10;
-}
-
-.overflow-hidden {
-  overflow: hidden;
-}
-
-.min-h-screen {
-  min-height: 100vh;
-}
-
-.max-w-4xl {
-  max-width: 56rem;
-}
-
-.w-5 {
-  width: 1.25rem;
-}
-
-.h-5 {
-  height: 1.25rem;
-}
-
-@media (min-width: 768px) {
-  .md\\:grid-cols-3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .md\\:col-span-2 {
-    grid-column: span 2 / span 2;
   }
 }
 </style>
