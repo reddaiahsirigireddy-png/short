@@ -1,15 +1,13 @@
-<script setup lang="ts">
+<script setup>
 import { AlertCircle } from 'lucide-vue-next'
 import { toast } from 'vue-sonner'
 import { z } from 'zod'
 
 const { t } = useI18n()
-const { previewMode } = useRuntimeConfig().public
 
 const LoginSchema = z.object({
-  token: z.string().min(1, 'Token is required').describe('SiteToken'),
+  token: z.string().describe('SiteToken'),
 })
-
 const loginFieldConfig = {
   token: {
     inputProps: {
@@ -19,31 +17,33 @@ const loginFieldConfig = {
   },
 }
 
-async function onSubmit(form: { token: string }) {
+const { previewMode } = useRuntimeConfig().public
+
+async function onSubmit(form) {
   try {
     localStorage.setItem('SinkSiteToken', form.token)
-    await useAPI('/api/verify')  // make sure this endpoint exists
-    navigateTo('/dashboard')     // change if your backend route differs
-  } catch (e: any) {
+    await useAPI('/api/verify')
+    navigateTo('/dashboard')
+  }
+  catch (e) {
     console.error(e)
     toast.error(t('login.failed'), {
-      description: e.message || 'Invalid token. Please try again.',
+      description: e.message,
     })
   }
 }
 </script>
 
 <template>
-  <Card class="w-full max-w-sm mx-auto mt-12">
+  <Card class="w-full max-w-sm">
     <CardHeader>
-      <CardTitle class="text-2xl font-semibold">
-        {{ t('login.title') }}
+      <CardTitle class="text-2xl">
+        {{ $t('login.title') }}
       </CardTitle>
       <CardDescription>
-        {{ t('login.description') }}
+        {{ $t('login.description') }}
       </CardDescription>
     </CardHeader>
-
     <CardContent class="grid gap-4">
       <AutoForm
         class="space-y-6"
@@ -53,15 +53,13 @@ async function onSubmit(form: { token: string }) {
       >
         <Alert v-if="previewMode">
           <AlertCircle class="w-4 h-4" />
-          <AlertTitle>{{ t('login.tips') }}</AlertTitle>
+          <AlertTitle>{{ $t('login.tips') }}</AlertTitle>
           <AlertDescription>
-            {{ t('login.preview_token') }}
-            <code class="font-mono text-green-500">Srlinks@29</code>
+            {{ $t('login.preview_token') }} <code class="font-mono text-green-500">SinkCool</code> .
           </AlertDescription>
         </Alert>
-
-        <Button class="w-full" type="submit">
-          {{ t('login.submit') }}
+        <Button class="w-full">
+          {{ $t('login.submit') }}
         </Button>
       </AutoForm>
     </CardContent>
