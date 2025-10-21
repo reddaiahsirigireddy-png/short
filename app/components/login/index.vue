@@ -5,17 +5,19 @@ const error = ref('')
 const siteToken = ref('')
 
 // Navigate to server-side OAuth login endpoint
-const handleLogin = async () => {
+const { previewMode } = useRuntimeConfig().public
+
+async function onSubmit(form) {
   try {
-    isLoading.value = true
-    error.value = ''
-    
-    // Navigate to the login endpoint which will redirect to Google OAuth
-    await navigateTo('/api/auth/login', { external: true })
-  } catch (err: any) {
-    console.error('Login navigation error:', err)
-    error.value = err?.message || 'Failed to initiate login'
-    isLoading.value = false
+    localStorage.setItem('SinkSiteToken', form.token)
+    await useAPI('/api/verify')
+    navigateTo('/dashboard')
+  }
+  catch (e) {
+    console.error(e)
+    toast.error(t('login.failed'), {
+      description: e.message,
+    })
   }
 }
 </script>
