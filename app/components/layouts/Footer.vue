@@ -40,7 +40,7 @@ const { email, blog, github } = useAppConfig()
         title="Srlinks"
       >
         <span class="inline-flex items-center gap-1.5">
-          &copy; {{ new Date().getFullYear() }} srlinks.xyz
+          &copy; {{ new Date().getFullYear() }} Srlinks.live
           <svg class="w-2.5 h-2.5 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
           </svg>
