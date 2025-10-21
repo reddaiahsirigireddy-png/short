@@ -61,7 +61,7 @@ async function onSubmit(form) {
                 <AlertTitle class="text-sm font-medium text-gray-900 dark:text-gray-100">Tips</AlertTitle>
                 <AlertDescription class="text-sm text-gray-600 dark:text-gray-300">
                   The site token for preview mode is
-                  <code class="font-mono text-green-600 dark:text-green-400">SinkCool</code>.
+                  <code class="font-mono text-green-600 dark:text-green-400">Srlinks@29</code>.
                 </AlertDescription>
               </div>
             </div>
