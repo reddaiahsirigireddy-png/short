@@ -85,50 +85,7 @@ function scrollToTop() {
 
 onMounted(() => {
   loadRecent()
-
-  // Load Native Async Ad Banner script
-  const nativeScript = document.createElement('script')
-  nativeScript.async = true
-  nativeScript.setAttribute('data-cfasync', 'false')
-  nativeScript.src = '//preferablyending.com/baafe128a08c806c01cbd4b9d77ced82/invoke.js'
-  document.getElementById('container-baafe128a08c806c01cbd4b9d77ced82').appendChild(nativeScript)
-  console.log('Native Async Ad Banner script loaded.')
-
-  // Load Popunder Ad script
-  const popunderScript = document.createElement('script')
-  popunderScript.type = 'text/javascript'
-  popunderScript.src = '//preferablyending.com/84/38/22/84382233fb94a7cfb87278684808293a.js'
-  document.getElementById('popunder-ad-container').appendChild(popunderScript)
-  console.log('Popunder Ad script loaded.')
 })
-</script>
-
-<script>
-export default {
-  head() {
-    return {
-      meta: [
-        {
-          name: 'b9c95a72416a096e5d809fd55035ba8b1b0c2fa0',
-          content: 'b9c95a72416a096e5d809fd55035ba8b1b0c2fa0',
-        },
-        {
-          name: 'referrer',
-          content: 'no-referrer-when-downgrade',
-        },
-      ],
-      script: [
-        {
-          'src': 'https://richinfo.co/richpartners/pops/js/richads-pu-ob.js',
-          'data-pubid': '987577',
-          'data-siteid': '372546',
-          'async': true,
-          'data-cfasync': 'false',
-        },
-      ],
-    }
-  },
-}
 </script>
 
 <template>
@@ -223,11 +180,6 @@ export default {
         </div>
       </section>
 
-      <!-- Native Async Ad Banner Before Features -->
-      <section>
-        <div id="container-baafe128a08c806c01cbd4b9d77ced82" />
-      </section>
-
       <!-- FEATURES SECTION -->
       <section class="features-section">
         <div class="container mx-auto px-4">
@@ -311,11 +263,6 @@ export default {
         </div>
       </section>
 
-      <!-- Popunder Ad After Features -->
-      <section>
-        <div id="popunder-ad-container" />
-      </section>
-
       <!-- RECENT LINKS -->
       <section class="recent-section" v-if="recentList.length > 0">
         <div class="container mx-auto px-4">
@@ -365,22 +312,12 @@ export default {
           </div>
         </div>
       </section>
-
-      <!-- FOOTER AD SPACE -->
-      <div class="footer-ad">
-        <div class="container mx-auto px-4">
-          <div class="ad-wrapper">
-            <div class="ad-placeholder-footer">Advertisement Space</div>
-          </div>
-        </div>
-      </div>
     </main>
     <Footer />
   </div>
 </template>
 
 <style scoped>
-/* Keep all existing styles from original file */
 @keyframes float {
   0%, 100% { 
     transform: translateY(0) rotate(0deg); 
@@ -795,23 +732,6 @@ export default {
 
 .btn-large {
   padding: 1.25rem 2.5rem;
-  font-size: 1.125rem;
-}
-
-/* Footer Ad */
-.footer-ad {
-  padding: 2rem 0;
-  background: #f8fafc;
-  border-top: 1px solid #e2e8f0;
-}
-
-.ad-placeholder-footer {
-  background: white;
-  border: 2px dashed #cbd5e0;
-  border-radius: 12px;
-  padding: 3rem;
-  text-align: center;
-  color: #a0aec0;
   font-size: 1.125rem;
 }
 
