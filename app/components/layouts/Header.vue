@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { GitHubIcon } from 'vue3-simple-icons'
 
 const showMenu = ref(false)
