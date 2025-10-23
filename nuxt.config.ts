@@ -3,6 +3,20 @@ import { currentLocales } from './i18n/i18n'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  app: {
+    head: {
+      meta: [
+        { name: 'google-adsense-account', content: 'ca-pub-3467552815150991' }
+      ],
+      script: [
+        {
+          async: true,
+          src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3467552815150991',
+          crossorigin: 'anonymous'
+        }
+      ]
+    }
+  }
   modules: [
     '@nuxthub/core',
     'shadcn-nuxt',
