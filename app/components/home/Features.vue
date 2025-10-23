@@ -533,6 +533,7 @@ const coreValues = [
         </div>
       </div>
     </section>
+
     <!-- Final CTA -->
     <section class="py-32 px-4 relative overflow-hidden">
       <div class="absolute inset-0">
@@ -608,3 +609,4 @@ const coreValues = [
       </div>
     </footer>
   </div>
+</template>
