@@ -613,4 +613,3 @@ export default function SRLinksHomepage() {
     </div>
   )
 }
-</template>
