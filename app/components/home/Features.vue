@@ -1,5 +1,4 @@
-<script setup>
-import { ref } from 'react'
+import React, { useState } from 'react';
 import { 
   Brain, 
   BarChart3, 
@@ -23,187 +22,110 @@ import {
   Bolt,
   Lock,
   CheckCircle2
-} from 'lucide-react'
-
-const email = ref('')
-
-const features = [
-  {
-    icon: Brain,
-    title: "AI-Powered Slugs",
-    description: "Smart slug suggestions that boost engagement and brand recognition",
-    color: "from-purple-500 to-pink-500"
-  },
-  {
-    icon: BarChart3,
-    title: "Real-time Analytics",
-    description: "Track clicks, locations, devices, and referrers in real-time",
-    color: "from-cyan-500 to-blue-500"
-  },
-  {
-    icon: QrCode,
-    title: "QR Code Generator",
-    description: "Create beautiful, customizable QR codes instantly",
-    color: "from-green-500 to-emerald-500"
-  },
-  {
-    icon: Shield,
-    title: "Enterprise Security",
-    description: "Bank-level encryption with DDoS protection and 99.9% uptime",
-    color: "from-blue-500 to-indigo-500"
-  },
-  {
-    icon: Clock,
-    title: "Link Expiration",
-    description: "Set expiry dates and control your campaign lifecycle",
-    color: "from-pink-500 to-rose-500"
-  },
-  {
-    icon: Bolt,
-    title: "Lightning Fast",
-    description: "Powered by Cloudflare's global edge network for <100ms redirects worldwide",
-    color: "from-orange-500 to-red-500"
-  }
-]
-
-const steps = [
-  { title: "Paste Your URL", desc: "Add your long link", icon: Link },
-  { title: "Customize Slug", desc: "AI suggests or create your own", icon: Sparkles },
-  { title: "Generate & Share", desc: "Get instant short link + QR", icon: Rocket },
-  { title: "Track & Optimize", desc: "Monitor real-time performance", icon: TrendingUp }
-]
-
-const useCases = [
-  { 
-    icon: Users,
-    title: "Creators & Influencers", 
-    desc: "Track bio links, campaigns, and audience engagement across platforms",
-    stats: "10K+ Active Users"
-  },
-  { 
-    icon: Target,
-    title: "Businesses & Marketers", 
-    desc: "Run and measure marketing campaigns with precision analytics",
-    stats: "5M+ Links Created"
-  },
-  { 
-    icon: Award,
-    title: "Agencies & Teams", 
-    desc: "Manage multiple clients with team collaboration tools",
-    stats: "99.9% Satisfaction"
-  }
-]
-
-const analyticsMetrics = [
-  {
-    icon: BarChart3,
-    value: '50M+',
-    label: 'Clicks Tracked',
-    color: 'from-purple-500 to-pink-500'
-  },
-  {
-    icon: Target,
-    value: '180+',
-    label: 'Countries',
-    color: 'from-cyan-500 to-blue-500'
-  },
-  {
-    icon: Zap,
-    value: '<100ms',
-    label: 'Avg Response',
-    color: 'from-green-500 to-emerald-500'
-  },
-  {
-    icon: TrendingUp,
-    value: '99.9%',
-    label: 'Uptime SLA',
-    color: 'from-orange-500 to-red-500'
-  }
-]
-
-const insights = [
-  {
-    icon: PieChart,
-    title: 'Geographic Insights',
-    desc: 'See where your clicks are coming from with detailed country and city-level data',
-    color: 'from-purple-500 to-pink-500'
-  },
-  {
-    icon: Smartphone,
-    title: 'Device Analytics',
-    desc: 'Understand your audience with desktop, mobile, and tablet breakdowns',
-    color: 'from-cyan-500 to-blue-500'
-  },
-  {
-    icon: Calendar,
-    title: 'Time-based Trends',
-    desc: 'Identify peak engagement times to optimize your posting schedule',
-    color: 'from-green-500 to-emerald-500'
-  }
-]
-
-const realWorldCases = [
-  {
-    icon: Instagram,
-    title: 'Social Media Campaign',
-    scenario: 'A fashion influencer used SRLinks to track her Instagram bio link across 5 campaigns, identifying that evening posts drove 3x more traffic.',
-    result: '312% increase in conversions',
-    color: 'from-pink-500 to-rose-500'
-  },
-  {
-    icon: Rocket,
-    title: 'Product Launch',
-    scenario: 'A SaaS company used custom slugs and QR codes for their product launch, tracking offline and online engagement separately.',
-    result: '89% attribution accuracy',
-    color: 'from-blue-500 to-cyan-500'
-  },
-  {
-    icon: ShoppingBag,
-    title: 'E-commerce Promo',
-    scenario: 'An online retailer created time-limited discount links that auto-expired after Black Friday, preventing code abuse.',
-    result: '$50K saved in promo abuse',
-    color: 'from-green-500 to-emerald-500'
-  },
-  {
-    icon: Ticket,
-    title: 'Event Management',
-    scenario: 'A conference organizer used QR codes on badges to track session attendance and engagement across 20+ workshops.',
-    result: '2,400+ check-ins tracked',
-    color: 'from-purple-500 to-indigo-500'
-  }
-]
-
-const aboutStats = [
-  { value: '100K+', label: 'Active Users' },
-  { value: '5M+', label: 'Links Created' },
-  { value: '50M+', label: 'Clicks Tracked' },
-  { value: '99.9%', label: 'Uptime' }
-]
-
-const coreValues = [
-  {
-    icon: Bolt,
-    title: 'Speed First',
-    desc: 'Built on Cloudflare\'s edge network for instant redirects globally',
-    color: 'from-orange-500 to-red-500'
-  },
-  {
-    icon: Lock,
-    title: 'Privacy Focused',
-    desc: 'Your data is encrypted, secure, and never sold to third parties',
-    color: 'from-blue-500 to-indigo-500'
-  },
-  {
-    icon: CheckCircle2,
-    title: 'Enterprise Ready',
-    desc: '99.9% uptime SLA, dedicated support, and custom solutions',
-    color: 'from-green-500 to-emerald-500'
-  }
-]
-</script>
+} from 'lucide-react';
 
 export default function SRLinksHomepage() {
-  const [email, setEmail] = React.useState('')
+  const [email, setEmail] = useState('');
+
+  const features = [
+    {
+      icon: Brain,
+      title: "AI-Powered Slugs",
+      description: "Smart slug suggestions that boost engagement and brand recognition",
+      color: "from-purple-500 to-pink-500"
+    },
+    {
+      icon: BarChart3,
+      title: "Real-time Analytics",
+      description: "Track clicks, locations, devices, and referrers in real-time",
+      color: "from-cyan-500 to-blue-500"
+    },
+    {
+      icon: QrCode,
+      title: "QR Code Generator",
+      description: "Create beautiful, customizable QR codes instantly",
+      color: "from-green-500 to-emerald-500"
+    },
+    {
+      icon: Shield,
+      title: "Enterprise Security",
+      description: "Bank-level encryption with DDoS protection and 99.9% uptime",
+      color: "from-blue-500 to-indigo-500"
+    },
+    {
+      icon: Clock,
+      title: "Link Expiration",
+      description: "Set expiry dates and control your campaign lifecycle",
+      color: "from-pink-500 to-rose-500"
+    },
+    {
+      icon: Bolt,
+      title: "Lightning Fast",
+      description: "Powered by Cloudflare's global edge network for <100ms redirects worldwide",
+      color: "from-orange-500 to-red-500"
+    }
+  ];
+
+  const steps = [
+    { title: "Paste Your URL", desc: "Add your long link", icon: Link },
+    { title: "Customize Slug", desc: "AI suggests or create your own", icon: Sparkles },
+    { title: "Generate & Share", desc: "Get instant short link + QR", icon: Rocket },
+    { title: "Track & Optimize", desc: "Monitor real-time performance", icon: TrendingUp }
+  ];
+
+  const useCases = [
+    { 
+      icon: Users,
+      title: "Creators & Influencers", 
+      desc: "Track bio links, campaigns, and audience engagement across platforms",
+      stats: "10K+ Active Users"
+    },
+    { 
+      icon: Target,
+      title: "Businesses & Marketers", 
+      desc: "Run and measure marketing campaigns with precision analytics",
+      stats: "5M+ Links Created"
+    },
+    { 
+      icon: Award,
+      title: "Agencies & Teams", 
+      desc: "Manage multiple clients with team collaboration tools",
+      stats: "99.9% Satisfaction"
+    }
+  ];
+
+  const analyticsMetrics = [
+    { icon: BarChart3, value: '50M+', label: 'Clicks Tracked', color: 'from-purple-500 to-pink-500' },
+    { icon: Target, value: '180+', label: 'Countries', color: 'from-cyan-500 to-blue-500' },
+    { icon: Zap, value: '<100ms', label: 'Avg Response', color: 'from-green-500 to-emerald-500' },
+    { icon: TrendingUp, value: '99.9%', label: 'Uptime SLA', color: 'from-orange-500 to-red-500' }
+  ];
+
+  const insights = [
+    { icon: PieChart, title: 'Geographic Insights', desc: 'See where your clicks are coming from with detailed country and city-level data', color: 'from-purple-500 to-pink-500' },
+    { icon: Smartphone, title: 'Device Analytics', desc: 'Understand your audience with desktop, mobile, and tablet breakdowns', color: 'from-cyan-500 to-blue-500' },
+    { icon: Calendar, title: 'Time-based Trends', desc: 'Identify peak engagement times to optimize your posting schedule', color: 'from-green-500 to-emerald-500' }
+  ];
+
+  const realWorldCases = [
+    { icon: Instagram, title: 'Social Media Campaign', scenario: 'A fashion influencer used SRLinks to track her Instagram bio link across 5 campaigns, identifying that evening posts drove 3x more traffic.', result: '312% increase in conversions', color: 'from-pink-500 to-rose-500' },
+    { icon: Rocket, title: 'Product Launch', scenario: 'A SaaS company used custom slugs and QR codes for their product launch, tracking offline and online engagement separately.', result: '89% attribution accuracy', color: 'from-blue-500 to-cyan-500' },
+    { icon: ShoppingBag, title: 'E-commerce Promo', scenario: 'An online retailer created time-limited discount links that auto-expired after Black Friday, preventing code abuse.', result: '$50K saved in promo abuse', color: 'from-green-500 to-emerald-500' },
+    { icon: Ticket, title: 'Event Management', scenario: 'A conference organizer used QR codes on badges to track session attendance and engagement across 20+ workshops.', result: '2,400+ check-ins tracked', color: 'from-purple-500 to-indigo-500' }
+  ];
+
+  const aboutStats = [
+    { value: '100K+', label: 'Active Users' },
+    { value: '5M+', label: 'Links Created' },
+    { value: '50M+', label: 'Clicks Tracked' },
+    { value: '99.9%', label: 'Uptime' }
+  ];
+
+  const coreValues = [
+    { icon: Bolt, title: 'Speed First', desc: 'Built on Cloudflare\'s edge network for instant redirects globally', color: 'from-orange-500 to-red-500' },
+    { icon: Lock, title: 'Privacy Focused', desc: 'Your data is encrypted, secure, and never sold to third parties', color: 'from-blue-500 to-indigo-500' },
+    { icon: CheckCircle2, title: 'Enterprise Ready', desc: '99.9% uptime SLA, dedicated support, and custom solutions', color: 'from-green-500 to-emerald-500' }
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
@@ -246,7 +168,7 @@ export default function SRLinksHomepage() {
         </div>
       </section>
 
-      {/* Value Proposition - Why SRLinks */}
+      {/* Value Proposition */}
       <section className="py-24 px-4 relative">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
@@ -375,7 +297,7 @@ export default function SRLinksHomepage() {
         </div>
       </section>
 
-      {/* Analytics & Insights */}
+      {/* Analytics */}
       <section className="py-24 px-4 bg-gradient-to-b from-transparent via-slate-900/50 to-transparent">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
@@ -457,104 +379,6 @@ export default function SRLinksHomepage() {
         </div>
       </section>
 
-      {/* Simple Token-Based Auth */}
-      <section className="py-24 px-4 bg-gradient-to-b from-transparent via-slate-900/50 to-transparent">
-        <div className="max-w-6xl mx-auto">
-          <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl rounded-3xl p-12 border border-slate-700/50 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-orange-500/10 to-pink-500/10 rounded-full blur-3xl" />
-            
-            <div className="relative z-10 grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <div className="inline-block px-4 py-2 bg-orange-500/10 border border-orange-500/20 rounded-full text-orange-400 text-sm font-semibold mb-6">
-                  AUTHENTICATION
-                </div>
-                <h2 className="text-4xl md:text-5xl font-black mb-6 text-white">
-                  Simple <span className="bg-gradient-to-r from-orange-400 to-pink-400 bg-clip-text text-transparent">Token-Based</span> Auth
-                </h2>
-                <p className="text-xl text-gray-400 mb-8 leading-relaxed">
-                  No complex OAuth flows. No headaches. Just a simple, secure token that works everywhere.
-                </p>
-                <ul className="space-y-4">
-                  <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-300 text-lg">Generate your API token in one click</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-300 text-lg">Use it in any application or script</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-300 text-lg">Revoke and regenerate anytime</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-slate-950/50 rounded-2xl p-6 border border-slate-700/50">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                  <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                </div>
-                <pre className="text-green-400 text-sm overflow-x-auto">
-                  <code>{`curl -X POST https://srlinks.io/api/shorten \\
-  -H "Authorization: Bearer YOUR_TOKEN" \\
-  -H "Content-Type: application/json" \\
-  -d '{"url": "https://example.com"}'`}</code>
-                </pre>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* About SRLinks */}
-      <section className="py-24 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="inline-block px-4 py-2 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-indigo-400 text-sm font-semibold mb-4">
-              ABOUT SRLINKS
-            </div>
-            <h2 className="text-5xl md:text-6xl font-black mb-6 text-white">
-              Built for <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Modern Teams</span>
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-            <div>
-              <h3 className="text-3xl font-bold mb-6 text-white">Our Mission</h3>
-              <p className="text-xl text-gray-400 leading-relaxed mb-6">
-                We're on a mission to make link management simple, powerful, and accessible for everyone. From solo creators to Fortune 500 companies, SRLinks empowers you to create, track, and optimize every link you share.
-              </p>
-              <p className="text-xl text-gray-400 leading-relaxed">
-                Built with cutting-edge technology and powered by Cloudflare's global network, we deliver lightning-fast redirects and real-time analytics at scale.
-              </p>
-            </div>
-            <div className="grid grid-cols-2 gap-6">
-              {aboutStats.map((stat, idx) => (
-                <div key={idx} className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl p-6 border border-slate-700/50 text-center hover:scale-105 transition-transform duration-300">
-                  <div className="text-4xl font-black bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent mb-2">
-                    {stat.value}
-                  </div>
-                  <div className="text-gray-400 text-sm">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {coreValues.map((value, idx) => (
-              <div key={idx} className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-3xl p-8 border border-slate-700/50 hover:border-indigo-500/50 transition-all duration-300">
-                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${value.color} flex items-center justify-center text-white mb-6 shadow-lg`}>
-                  <value.icon className="w-7 h-7" />
-                </div>
-                <h3 className="text-xl font-bold mb-3 text-white">{value.title}</h3>
-                <p className="text-gray-400 leading-relaxed">{value.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Final CTA */}
       <section className="py-32 px-4 relative overflow-hidden">
         <div className="absolute inset-0">
@@ -564,7 +388,7 @@ export default function SRLinksHomepage() {
 
         <div className="max-w-5xl mx-auto text-center relative z-10">
           <div className="inline-block px-4 py-2 bg-white/10 border border-white/20 rounded-full text-white text-sm font-semibold mb-8 backdrop-blur-sm">
-            CALL TO ACTION
+            READY TO GET STARTED?
           </div>
           
           <h2 className="text-5xl md:text-7xl font-black text-white mb-8 leading-tight">
@@ -611,5 +435,5 @@ export default function SRLinksHomepage() {
       </section>
 
     </div>
-  )
+  );
 }
