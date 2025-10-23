@@ -88,9 +88,6 @@ const { email, blog, github } = useAppConfig()
         </a>
       </span>
     </div>
-    
-    <!-- Social Bar Ad Script - Before closing body tag -->
-    <script type='text/javascript' src='//preferablyending.com/b1/c5/45/b1c5454db9d9699cc2f9072a41d2f475.js'></script>
   </section>
 </template>
 
