@@ -25,6 +25,11 @@ useHead({
       content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0',
       tagPosition: 'head',
     },
+    // Google AdSense verification meta tag
+    {
+      name: 'google-adsense-account',
+      content: 'ca-pub-3467552815150991',
+    },
   ],
   link: [
     {
