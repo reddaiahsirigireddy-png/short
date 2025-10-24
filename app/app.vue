@@ -42,6 +42,14 @@ useHead({
       href: '/apple-touch-icon.png',
     },
   ],
+  script: [
+    // Google AdSense Auto Ads
+    {
+      async: true,
+      src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3467552815150991',
+      crossorigin: 'anonymous',
+    },
+  ],
 })
 </script>
 
