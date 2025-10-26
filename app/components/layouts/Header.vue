@@ -75,7 +75,25 @@ watch(() => useRoute().path, () => {
             <div class="flex-col w-full h-auto overflow-hidden rounded-lg md:overflow-visible md:rounded-none md:relative md:flex md:flex-row">
               <div class="w-auto mx-4" />
 
-              <div class="flex flex-row items-center justify-end w-full space-x-4">
+              <div class="flex flex-row items-center justify-end w-full space-x-2">
+                <!-- About Link -->
+                <NuxtLink
+                  to="/about"
+                  title="About Us"
+                  class="px-4 py-2 text-sm font-semibold text-slate-900 dark:text-white hover:text-orange-500 dark:hover:text-orange-400 transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+                >
+                  About
+                </NuxtLink>
+
+                <!-- Contact Link -->
+                <NuxtLink
+                  to="/contact"
+                  title="Contact Us"
+                  class="px-4 py-2 text-sm font-semibold text-slate-900 dark:text-white hover:text-orange-500 dark:hover:text-orange-400 transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+                >
+                  Contact
+                </NuxtLink>
+
                 <!-- Dashboard Link -->
                 <NuxtLink
                   to="/dashboard"
@@ -164,6 +182,22 @@ watch(() => useRoute().path, () => {
 
               <!-- Mobile Menu Items -->
               <div class="p-3 space-y-2">
+                <NuxtLink
+                  to="/about"
+                  title="About Us"
+                  class="flex items-center w-full px-4 py-2.5 text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all duration-300 font-semibold text-sm"
+                >
+                  About Us
+                </NuxtLink>
+
+                <NuxtLink
+                  to="/contact"
+                  title="Contact Us"
+                  class="flex items-center w-full px-4 py-2.5 text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all duration-300 font-semibold text-sm"
+                >
+                  Contact Us
+                </NuxtLink>
+
                 <NuxtLink
                   to="/dashboard"
                   title="Srlinks Dashboard"
