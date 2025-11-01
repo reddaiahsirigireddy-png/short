@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Block admin and API routes
+Disallow: /api/
+Disallow: /dashboard/login
+Disallow: /_nuxt/
+Disallow: /*.json$
+
+# Allow important pages
+Allow: /
+Allow: /about
+Allow: /contact
+Allow: /blog
+Allow: /privacy
+Allow: /terms
+
+Sitemap: https://srlinks.live/sitemap.xml
