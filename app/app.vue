@@ -1,5 +1,13 @@
 <script setup>
 const { title, description, image } = useAppConfig()
+const route = useRoute()
+
+// Generate canonical URL dynamically
+const canonicalUrl = computed(() => {
+  const baseUrl = 'https://srlinks.live'
+  const path = route.path.replace(/\/$/, '') || '/' // Remove trailing slash
+  return `${baseUrl}${path}`
+})
 
 useSeoMeta({
   title: `${title} - ${description}`,
@@ -9,6 +17,7 @@ useSeoMeta({
   ogSiteName: title,
   ogDescription: description,
   ogImage: image,
+  ogUrl: canonicalUrl,
   twitterTitle: title,
   twitterDescription: description,
   twitterImage: image,
@@ -32,6 +41,10 @@ useHead({
     },
   ],
   link: [
+    {
+      rel: 'canonical',
+      href: canonicalUrl.value,
+    },
     {
       rel: 'icon',
       type: 'image/png',
