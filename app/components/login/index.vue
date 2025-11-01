@@ -5,6 +5,22 @@ import { z } from 'zod'
 
 const { t } = useI18n()
 
+// Add SEO and canonical
+useSeoMeta({
+  title: 'Login - Srlinks Dashboard',
+  description: 'Login to your Srlinks dashboard to manage your short links',
+  robots: 'noindex, nofollow', // Don't index login page
+})
+
+useHead({
+  link: [
+    {
+      rel: 'canonical',
+      href: 'https://srlinks.live/dashboard/login'
+    }
+  ]
+})
+
 const LoginSchema = z.object({
   token: z.string().describe('SiteToken'),
 })
